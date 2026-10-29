@@ -20,6 +20,21 @@ You can start editing the page by modifying `app/page.tsx`. The page auto-update
 
 This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
+## Environment variables
+
+Copy `.env.example` to `.env.local` if you do not already have a local env file.
+If `.env.local` already exists, add the variables below without replacing its
+current values:
+
+- `GOOGLE_GENERATIVE_AI_API_KEY`: your Google AI API key.
+- `APP_ACCESS_PASSWORD`: a private password of at least 12 characters.
+- `SESSION_SECRET`: a private random secret of at least 32 bytes.
+
+The `/api/chat` endpoint requires a session. Send the password as JSON to
+`POST /api/auth/login` to set an HTTP-only session cookie; send
+`POST /api/auth/logout` to clear it. Never commit `.env.local` or share these
+secrets. Set the same variables in your hosting provider's environment settings.
+
 ## Learn More
 
 To learn more about Next.js, take a look at the following resources:

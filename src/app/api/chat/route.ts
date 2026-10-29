@@ -1,9 +1,30 @@
 import { google } from "@ai-sdk/google";
 import { createUIMessageStreamResponse, streamText, toUIMessageStream } from "ai";
+import { cookies } from "next/headers";
+import { getAuthConfig, isValidSessionToken, SESSION_COOKIE_NAME } from "@/lib/auth";
 
 export const maxDuration = 60;
 
 export async function POST(req: Request) {
+  const authConfig = getAuthConfig();
+
+  if (!authConfig) {
+    return Response.json(
+      { error: "Authentication is not configured correctly on the server." },
+      { status: 503, headers: { "Cache-Control": "no-store" } },
+    );
+  }
+
+  const cookieStore = await cookies();
+  const sessionToken = cookieStore.get(SESSION_COOKIE_NAME)?.value;
+
+  if (!isValidSessionToken(sessionToken, authConfig.sessionSecret)) {
+    return Response.json(
+      { error: "Authentication required." },
+      { status: 401, headers: { "Cache-Control": "no-store" } },
+    );
+  }
+
   const { messages } = await req.json();
 
   const result = streamText({
