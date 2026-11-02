@@ -5,6 +5,9 @@ const nextConfig: NextConfig = {
   cacheComponents: true,
   partialPrefetching: true,
   turbopack: {
+    resolveAlias: {
+      "@ai-sdk/react": "./src/lib/ai-sdk-react.ts",
+    },
     rules: {
       "*.css": {
         loaders: ["@tailwindcss/turbopack"],
