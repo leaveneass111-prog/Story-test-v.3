@@ -44,3 +44,7 @@ next-env.d.ts
 # local backend memory store
 /.data/
 
+# agent workspace & temporary reports
+/.agents/
+/TEST_READY.md
+
